@@ -1,4 +1,3 @@
-// hooks/useScrollToCenter.ts
 import { useEffect } from 'react';
 
 export function useScrollToCenter(

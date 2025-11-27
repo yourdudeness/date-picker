@@ -5,6 +5,7 @@ import { DateRange, formatMonthYear } from "@/lib/dateUtils";
 import { Header } from "./Header";
 import { getMonthDate } from "@/app/hooks/getMonthDate";
 import { MonthComponent } from "./MonthComponent";
+import { MonthSelector } from "./MonthSelector";
 
 import { useMonthScrollTracker } from "@/app/hooks/useMonthScrollTracker";
 import { useDateRangeSelection } from "@/app/hooks/useDateRangeSelection";
@@ -23,7 +24,9 @@ export default function DateRangePicker({
   const totalMonths = 24;
   
   const [currentMonthIndex, setCurrentMonthIndex] = useState(centerIndex);
-const scrollContainerRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
+  const [isMonthSelectorOpen, setIsMonthSelectorOpen] = useState(false);
+  
+  const scrollContainerRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
   const monthRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
   const {
@@ -41,6 +44,14 @@ const scrollContainerRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLD
   );
 
   useScrollToCenter(monthRefs, scrollContainerRef, centerIndex);
+
+  const handleMonthSelect = (monthIndex: number) => {
+    const monthElement = monthRefs.current.get(monthIndex);
+    if (monthElement && scrollContainerRef.current) {
+      monthElement.scrollIntoView({ block: "center", behavior: "smooth" });
+    }
+    setIsMonthSelectorOpen(false);
+  };
 
   return (
     <div className="h-screen flex flex-col bg-gradient-to-b from-blue-50 to-white">
@@ -78,11 +89,22 @@ const scrollContainerRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLD
         ))}
       </div>
 
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-gray-200">
+      <button
+        onClick={() => setIsMonthSelectorOpen(true)}
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-gray-200 active:scale-95 transition-transform"
+      >
         <div className="text-xs font-medium text-gray-600">
           {formatMonthYear(getMonthDate(currentMonthIndex))}
         </div>
-      </div>
+      </button>
+
+      <MonthSelector
+        isOpen={isMonthSelectorOpen}
+        onClose={() => setIsMonthSelectorOpen(false)}
+        currentMonthIndex={currentMonthIndex}
+        totalMonths={totalMonths}
+        onMonthSelect={handleMonthSelect}
+      />
     </div>
   );
 }

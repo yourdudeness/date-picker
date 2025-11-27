@@ -59,7 +59,7 @@ export const MonthComponent = ({
       className="min-h-screen flex items-center justify-center px-4 py-8"
     >
       <div className="w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-center mb-6 capitalize">
+        <h2 className="text-2xl font-semibold text-center mb-6 capitalize text-gray-800">
           {formatMonthYear(monthDate)}
         </h2>
 
