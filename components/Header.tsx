@@ -22,7 +22,6 @@ export const Header = ({ selectedRange, handleClear, isSelecting }: Props) => {
           )}
         </div>
 
-        {/* Selected range display */}
         <div className="flex items-center gap-3 text-sm">
           <div className="flex-1 p-3 bg-blue-50 rounded-lg">
             <div className="text-xs text-gray-600 mb-1">Начало</div>
