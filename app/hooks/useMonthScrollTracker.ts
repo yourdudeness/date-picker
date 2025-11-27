@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from "react";
 
 export function useMonthScrollTracker(
   scrollContainerRef: React.RefObject<HTMLDivElement>,
@@ -6,11 +6,11 @@ export function useMonthScrollTracker(
   onMonthChange: (index: number) => void
 ) {
   const lastScrollTime = useRef<number>(0);
-  const scrollTimeout = useRef<NodeJS.Timeout>();
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const handleScroll = useCallback(() => {
     const now = Date.now();
-    if (now - lastScrollTime.current < 50) return; // Throttle
+    if (now - lastScrollTime.current < 50) return;
     lastScrollTime.current = now;
 
     if (scrollTimeout.current) {
